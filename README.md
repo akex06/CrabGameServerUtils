@@ -1,4 +1,7 @@
 # CrabGameServerUtils
+
+# Examples
+## Command Example
 ```cs
 public class Say
 {
