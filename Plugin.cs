@@ -1,11 +1,10 @@
 ﻿#nullable enable
-using System;
-using System.Linq;
-using System.Reflection;
+
+using System.Collections.Generic;
 using BepInEx;
 using BepInEx.IL2CPP;
 using HarmonyLib;
-using Il2CppSystem.Collections.Generic;
+using TestPlugin.Modules;
 using TestPlugin.Modules.Commands;
 
 namespace TestPlugin;
@@ -14,11 +13,13 @@ namespace TestPlugin;
 public class Plugin : BasePlugin
 {
     public static Plugin Instance;
+    public static HashSet<ulong>? MutedPlayers;
     public override void Load()
     {
         Instance = this;
-            
-        Commands.LoadCommands();
+        Mutes.LoadMutes();
+
+        Modules.Commands.Commands.LoadCommands();
             
         Harmony.CreateAndPatchAll(typeof(Plugin));
         Log.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
@@ -28,9 +29,19 @@ public class Plugin : BasePlugin
     [HarmonyPrefix]
     public static bool ServerReceiveMessage(ulong __0, string __1)
     {
-        if (!__1.StartsWith("/")) return true;
-            
-        Commands.PerformCommand(__0, __1);
-        return false;
+        Player player = new Player(__0);
+        if (__1.StartsWith("/"))
+        {
+            Modules.Commands.Commands.PerformCommand(player, __1);
+            return false;
+        }
+        
+        if (MutedPlayers.Contains(__0))
+        {
+            player.Send("You are muted");
+            return false;
+        }
+        
+        return true;
     }
 }

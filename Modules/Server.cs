@@ -1,4 +1,8 @@
-﻿using Il2CppSystem.Collections.Generic;
+﻿using System;
+using System.IO;
+using System.Linq;
+using Il2CppSystem.Collections.Generic;
+using UnityEngine;
 
 namespace TestPlugin.Modules;
 
@@ -11,15 +15,7 @@ public class Server
         Banned = 2,
         LostConnection = 3
     }
-
-    public enum LobbyState
-    {
-        Menu = 0,
-        Loading = 1,
-        PreGame = 2,
-        Started = 3,
-        GameOver = 4
-    }
+    
     public static bool IsAdmin(ulong player)
     {
         return (ulong) SteamManager.Instance.field_Private_CSteamID_1 == player;
@@ -35,10 +31,19 @@ public class Server
         return null;
     }
     
+    public static void SendMessageBy(ulong sender, ulong receiver, string senderName, string message)
+    {
+        Packet packet = new Packet(2);
+        packet.Method_Public_Void_UInt64_0(sender);
+        packet.Method_Public_Void_String_0(senderName);
+        packet.Method_Public_Void_String_0(message);
+        ServerSend.Method_Private_Static_Void_UInt64_ObjectPublicIDisposableLi1ByInByBoUnique_0(receiver, packet);
+    }
+
     public static void SendMessage(ulong __0, string __1)
     {
         Packet packet = new Packet(2);
-        packet.Method_Public_Void_UInt64_0(__0);
+        packet.Method_Public_Void_UInt64_0(1UL);
         packet.Method_Public_Void_String_0("Server");
         packet.Method_Public_Void_String_0(__1);
         ServerSend.Method_Private_Static_Void_UInt64_ObjectPublicIDisposableLi1ByInByBoUnique_0(__0, packet);

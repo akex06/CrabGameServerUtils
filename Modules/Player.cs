@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TestPlugin.Modules;
 using TestPlugin.Modules.Exceptions;
 
@@ -57,5 +58,17 @@ public class Player
     public bool IsAdmin()
     {
         return Server.IsAdmin(ID);
+    }
+
+    public void Mute()
+    {
+        Mutes.Save();
+        Plugin.MutedPlayers.Append(ID);
+    }
+
+    public void UnMute()
+    {
+        Mutes.Save();
+        Plugin.MutedPlayers.Remove(ID);
     }
 }

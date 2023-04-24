@@ -28,13 +28,11 @@ public class Commands
         Plugin.Instance.Log.LogInfo($"Loaded {ParsedCommands.Count} commands");
     }
 
-    public static void PerformCommand(ulong id, string message)
+    public static void PerformCommand(Player player, string message)
     {
         string[] separated = message.Split(" ");
         string[] parameters = separated[1..];
         string name = separated[0][1..];
-
-        Player player = new Player(id);
 
         if (!ParsedCommands.ContainsKey(name))
         {

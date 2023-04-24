@@ -2,17 +2,17 @@
 
 public class CommandContext
 {
-    public Player Player;
+    public Player Author;
     public string[] Parameters;
 
     public CommandContext(Player player, string[] parameters)
     {
-        Player = player;
+        Author = player;
         Parameters = parameters;
     }
     
     public void Send(string message)
     {
-        Server.SendMessage(Player.ID, message);
+        Server.SendMessage(Author.ID, message);
     }
 }
