@@ -14,6 +14,7 @@ public class Plugin : BasePlugin
 {
     public static Plugin Instance;
     public static HashSet<ulong>? MutedPlayers;
+    
     public override void Load()
     {
         Instance = this;
@@ -36,7 +37,7 @@ public class Plugin : BasePlugin
             return false;
         }
         
-        if (MutedPlayers.Contains(__0))
+        if (MutedPlayers != null && MutedPlayers.Contains(__0))
         {
             player.Send("You are muted");
             return false;

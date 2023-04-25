@@ -50,6 +50,11 @@ public class Player
         Server.Ban(ID);
     }
 
+    public void UnBan()
+    {
+        LobbyManager.bannedPlayers.Remove(ID);
+    }
+
     public void Send(string message)
     {
         Server.SendMessage(ID, message);

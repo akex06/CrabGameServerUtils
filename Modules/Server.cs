@@ -65,6 +65,7 @@ public class Server
     public static void Ban(ulong id)
     {
         ServerSend.LobbyClosed(id, (MonoBehaviourPublicCSDi2UIInstObUIloDiUnique.EnumNPublicSealedvaSeKiBaLo5vUnique)LeaveCode.Banned);
+        LobbyManager.Instance.BanPlayer(id);
     }
 
     public static Permission GetPermission(ulong id)
